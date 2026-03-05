@@ -24,7 +24,7 @@ fi
 # Create directories
 mkdir -p "$TARGET/rules" "$TARGET/agents" "$TARGET/memory"
 mkdir -p "$TARGET/skills/commit" "$TARGET/skills/plan" "$TARGET/skills/test"
-mkdir -p "$TARGET/skills/check" "$TARGET/skills/status"
+mkdir -p "$TARGET/skills/check" "$TARGET/skills/status" "$TARGET/skills/AS"
 
 echo "Syncing shared files to $TARGET ..."
 
@@ -41,7 +41,7 @@ for agent in memory-updater planner reviewer researcher system-documenter spec-u
 done
 
 # Shared skills
-for skill in commit plan test check status; do
+for skill in commit plan test check status AS; do
   cp "$SCRIPT_DIR/skills/$skill/SKILL.md" "$TARGET/skills/$skill/SKILL.md"
   echo "  skills/$skill/SKILL.md"
 done

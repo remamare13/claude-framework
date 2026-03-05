@@ -43,7 +43,8 @@ claude-framework/
 │   ├── plan/SKILL.md            ← Create plan before changes
 │   ├── test/SKILL.md            ← Run tests + boot check
 │   ├── check/SKILL.md           ← Quick health check (no agents)
-│   └── status/SKILL.md          ← Full system state report
+│   ├── status/SKILL.md          ← Full system state report
+│   └── AS/SKILL.md              ← OpenClaw agent setup guide
 ├── settings.json                ← Security hooks
 ├── templates/                   ← Skeletons for project-specific files
 │   ├── memory.md.template
@@ -77,6 +78,7 @@ claude-framework/
 | `/test` | Run tests + server boot check | 15s |
 | `/check` | Quick health: tests, server, git (no agents) | 10s |
 | `/status` | Full system state report | 30s |
+| `/AS` | Set up a new OpenClaw agent (workspace, config, context) | 1-5min |
 
 ## Design Principles
 
