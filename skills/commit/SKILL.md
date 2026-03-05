@@ -21,7 +21,7 @@ test → commit → memory-updater → tag → done
 test → reviewer → commit → memory-updater → tag → done
 
 ### --full (major changes)
-test → boot check → reviewer → commit → memory-updater + system-documenter + spec-reporter (parallel) → tag → done
+test → boot check → reviewer → commit → memory-updater + system-documenter + spec-updater (parallel) → tag → done
 
 ## Steps
 

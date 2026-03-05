@@ -14,16 +14,17 @@ MANDATORY for tasks touching >3 files or adding new functionality.
 ## Steps
 
 1. **Spawn planner agent** with task description
-2. **Present plan** in plain language to user:
+2. **Check dependency map** — read `.claude/memory/dependencies.md` for critical paths (if exists)
+3. **Present plan** in plain language to user:
    - Files to change/create
-   - Protected files involved
-   - Downstream impact
-   - Risk level
+   - Protected files involved (check `.claude/rules/protected-files.md` if exists)
+   - Downstream impact (which files import the changed files)
+   - Risk level (Low/Medium/High)
    - Step-by-step with test checkpoints
-3. **Write regression test** (if modifying existing functionality) — BEFORE any changes
-4. **Wait for approval** — do NOT start until user confirms
-5. **Execute** — follow plan step by step, test after each step
-6. **If something unexpected** — STOP, update plan, ask user
+4. **Write regression test** (if modifying existing functionality) — BEFORE any changes
+5. **Wait for approval** — do NOT start until user confirms
+6. **Execute** — follow plan step by step, test after each step
+7. **If something unexpected** — STOP, update plan, ask user
 
 ## Rules
 - NEVER skip for tasks >3 files

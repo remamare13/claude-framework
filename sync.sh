@@ -35,7 +35,7 @@ for rule in workflow security; do
 done
 
 # Shared agents
-for agent in memory-updater planner reviewer researcher; do
+for agent in memory-updater planner reviewer researcher system-documenter spec-updater; do
   cp "$SCRIPT_DIR/agents/$agent.md" "$TARGET/agents/$agent.md"
   echo "  agents/$agent.md"
 done

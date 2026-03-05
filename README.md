@@ -7,7 +7,7 @@ Shared Claude Code infrastructure for consistent AI-assisted development across 
 A standardized `.claude/` setup providing:
 - **Workflow rules** — test before/after, read before write, dependency checking
 - **Security rules** — no secrets to frontend, no PII in logs, parameterized queries, auth enforcement
-- **Agents** — memory-updater, planner, reviewer, researcher
+- **Agents** — memory-updater, planner, reviewer, researcher, system-documenter, spec-updater
 - **Skills** — /commit, /plan, /test, /check, /status
 - **Hooks** — prevent accidental secret commits, enforce commit prefixes
 - **Templates** — skeletons for project-specific files (memory, protected files, etc.)
@@ -35,7 +35,9 @@ claude-framework/
 │   ├── memory-updater.md        ← Auto-update memory after commits
 │   ├── planner.md               ← Plan before coding
 │   ├── reviewer.md              ← Code review
-│   └── researcher.md            ← Deep codebase + web research
+│   ├── researcher.md            ← Deep codebase + web research
+│   ├── system-documenter.md     ← Generate SYSTEM_STATE.md snapshots
+│   └── spec-updater.md          ← Keep docs/specs in sync with code
 ├── skills/
 │   ├── commit/SKILL.md          ← Test → review → commit → memory update
 │   ├── plan/SKILL.md            ← Create plan before changes
@@ -68,9 +70,9 @@ claude-framework/
 
 | Skill | Purpose | Speed |
 |-------|---------|-------|
-| `/commit` | Test → review → commit → memory update | 30-60s |
+| `/commit` | Test → review → commit → memory update → tag | 30-60s |
 | `/commit --quick` | Test → commit → memory update (small changes) | 15s |
-| `/commit --full` | + boot check, system docs, spec report, tag | 2-3min |
+| `/commit --full` | + boot check, system-documenter, spec-updater, tag | 2-3min |
 | `/plan` | Create implementation plan before coding | 30s |
 | `/test` | Run tests + server boot check | 15s |
 | `/check` | Quick health: tests, server, git (no agents) | 10s |
