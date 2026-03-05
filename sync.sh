@@ -29,8 +29,10 @@ mkdir -p "$TARGET/skills/check" "$TARGET/skills/status"
 echo "Syncing shared files to $TARGET ..."
 
 # Shared rules
-cp "$SCRIPT_DIR/rules/workflow.md" "$TARGET/rules/workflow.md"
-echo "  rules/workflow.md"
+for rule in workflow security; do
+  cp "$SCRIPT_DIR/rules/$rule.md" "$TARGET/rules/$rule.md"
+  echo "  rules/$rule.md"
+done
 
 # Shared agents
 for agent in memory-updater planner reviewer researcher; do

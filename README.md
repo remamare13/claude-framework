@@ -6,6 +6,7 @@ Shared Claude Code infrastructure for consistent AI-assisted development across 
 
 A standardized `.claude/` setup providing:
 - **Workflow rules** — test before/after, read before write, dependency checking
+- **Security rules** — no secrets to frontend, no PII in logs, parameterized queries, auth enforcement
 - **Agents** — memory-updater, planner, reviewer, researcher
 - **Skills** — /commit, /plan, /test, /check, /status
 - **Hooks** — prevent accidental secret commits, enforce commit prefixes
@@ -28,7 +29,8 @@ A standardized `.claude/` setup providing:
 ```
 claude-framework/
 ├── rules/
-│   └── workflow.md              ← Development discipline rules
+│   ├── workflow.md              ← Development discipline rules
+│   └── security.md             ← Security rules (secrets, PII, frontend, DB)
 ├── agents/
 │   ├── memory-updater.md        ← Auto-update memory after commits
 │   ├── planner.md               ← Plan before coding

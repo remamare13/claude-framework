@@ -15,13 +15,16 @@ Review changes for quality, security, and convention compliance.
 
 ## Checklist
 
-### Security (CRITICAL)
+### Security (CRITICAL — see also `rules/security.md`)
 - SQL queries use parameterized statements (better-sqlite3 `.prepare()`)
 - No sensitive data in logs (PII, credentials, client information)
 - Auth middleware on all non-public endpoints
-- No secrets, tokens, or keys in code
+- No secrets, tokens, or keys in code — not in source, not in API responses
+- **No secrets exposed to frontend** — API responses must not contain tokens, keys, internal config
+- **No PII leaking** — API responses return only what the UI needs, no extra fields
 - Input validation on external inputs
 - Output escaping for XSS prevention
+- Error responses don't expose internals (no stack traces, SQL errors, file paths to client)
 
 ### Protected Files
 - Check if any changed files are in `.claude/rules/protected-files.md`
