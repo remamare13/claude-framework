@@ -92,3 +92,4 @@ claude-framework/
 
 - NOTAR — Notary AI assistant
 - ODVETNIK — Attorney AI assistant
+- OC3 JARVIS — Personal AI assistant
