@@ -1,0 +1,30 @@
+# Architecture Notes — [PROJECT NAME]
+
+## Boot Sequence
+- Entry point: `server.js`
+- Port: [PORT] (configurable via [ENV_VAR] or PORT)
+
+## Database
+- SQLite WAL mode via better-sqlite3 (synchronous API)
+- Core migrations: `src/core/db/migrations/` (001-NNN)
+- Business migrations: `migrations/` (001-NNN)
+- Module migrations: `src/modules/<name>/migrations/`
+
+## API Layer
+- Route files in `src/api/`
+- Auth middleware on all non-public endpoints
+- Express 5, async error handling
+
+## Module System
+- Modules in `src/modules/`
+- Pattern: module.js (lifecycle), mcp-tools.js (MCP tools), migrations/ (optional)
+- Lifecycle: init(ctx) → start() → stop()
+
+## Bridge / OpenClaw Integration
+- Gateway config: `openclaw/openclaw.json`
+- Gateway port: [PORT]
+- MCP bridge port: [PORT]
+
+## Agent System
+- Agent definitions in `agents/` or `openclaw/agents/`
+- [List agents and their purposes]

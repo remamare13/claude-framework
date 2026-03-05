@@ -1,0 +1,23 @@
+# Module Dependencies — [PROJECT NAME]
+
+## Critical Paths (change one = check all downstream)
+
+### src/core/auth/middleware.js
+Imported by: ALL src/api/*.js
+Impact: If this breaks, no API endpoint works
+
+### src/core/db/
+Imported by: all migrations, all modules
+Impact: If this breaks, nothing starts
+
+### server.js / src/boot.js
+Controls: initialization order
+Impact: Wrong order = modules crash on missing dependencies
+
+### src/bridge/openclaw-client.js
+Imported by: bridge components, chat, MCP
+Impact: If this breaks, no AI agent communication
+
+## Isolated Modules (safe to modify independently)
+
+- [List standalone modules with no downstream deps]

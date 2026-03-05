@@ -1,0 +1,19 @@
+# User Local Rules
+
+## About the User
+- **NOT a developer** — explain in plain language
+- Language for conversation: [Slovenian / English / ...]
+- Language for code/docs/commits: English
+
+## Commit Prefix
+- Default (Claude Code): `[CD]`
+- Ops/config changes: `[Donna]`
+- Manual commits: `[Marko]`
+- Auto-generated: `[auto]`
+
+## Preferences
+- Short, direct answers — no fluff
+- Explain WHAT and WHY before doing it
+- If something breaks, explain what happened and what you'll do
+- Don't ask permission for safe actions (reading, testing)
+- DO ask permission for risky actions (protected files, pushing, deleting)

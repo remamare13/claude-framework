@@ -1,0 +1,35 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'FILE_PATH=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"file_path\\\",\\\"\\\"))\" 2>/dev/null); if [ -z \"$FILE_PATH\" ]; then exit 0; fi; BASENAME=$(basename \"$FILE_PATH\"); case \"$BASENAME\" in .env|users.json|*.pem|*.key) echo \"BLOCKED: Cannot modify secrets/env files\" >&2; exit 2;; esac; case \"$FILE_PATH\" in *.env.*|*credentials*) echo \"BLOCKED: Cannot modify secrets/env files\" >&2; exit 2;; esac; exit 0'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"command\\\",\\\"\\\"))\" 2>/dev/null); if [ -z \"$CMD\" ]; then exit 0; fi; if echo \"$CMD\" | grep -qE \"^git add (-A|--all|\\.)$|^git add .* (-A|--all)\"; then echo \"BLOCKED: Never use git add -A/. — always add specific files by name\" >&2; exit 2; fi; for PAT in \".env\" \"users.json\" \"credentials\" \".pem\" \".key\"; do case \"$CMD\" in *\"$PAT\"*) case \"$CMD\" in *cat*|*less*|*head*|*tail*|*grep*|*echo*) ;; *) echo \"BLOCKED: Cannot modify secrets/env files via shell\" >&2; exit 2;; esac;; esac; done; if echo \"$CMD\" | grep -q \"git commit\"; then if ! echo \"$CMD\" | grep -qE \"\\[CD\\]|\\[Donna\\]|\\[Marko\\]|\\[auto\\]\"; then echo \"BLOCKED: Commit message must contain [CD], [Donna], [Marko], or [auto] prefix\" >&2; exit 2; fi; fi; exit 0'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'FILE_PATH=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"file_path\\\",\\\"\\\"))\" 2>/dev/null); LOGDIR=\".claude\"; mkdir -p \"$LOGDIR\"; echo \"$(date \"+%Y-%m-%d %H:%M:%S\") | $CLAUDE_TOOL | $FILE_PATH\" >> \"$LOGDIR/change-log.txt\"; exit 0'"
+          }
+        ]
+      }
+    ]
+  }
+}

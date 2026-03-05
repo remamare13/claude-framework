@@ -1,0 +1,24 @@
+# Protected Files — DO NOT modify without explicit user approval
+
+These files are stable and critical. Changing them risks breaking the system.
+If a task requires modifying a protected file, STOP and ask the user first.
+
+## Never Modify (existing migrations)
+- `migrations/001-NNN` — existing business migrations. Create NEW migrations instead.
+- `src/core/db/migrations/001-NNN` — core infrastructure migrations. Always add new.
+
+## Ask Before Modifying (stable infrastructure)
+- `src/core/auth/` — JWT, RBAC, sessions
+- `src/core/db/connection.js` — database foundation
+- `src/core/security/` — input sanitizer, CSRF, prompt guard
+- `src/bridge/openclaw-client.js` — WebSocket handshake, reconnection
+- `server.js` / `src/boot.js` — startup sequence
+- `.claude/settings.json` — hooks and permissions
+- `package.json` dependencies — no add/remove without reason
+
+## Why These Are Protected
+Each has downstream dependencies across the codebase:
+- auth middleware → all API endpoints
+- db connection → all modules and migrations
+- boot sequence → initialization order matters
+- bridge client → all agent communication

@@ -1,0 +1,36 @@
+# Project Memory — [PROJECT NAME]
+
+Auto-loaded in every conversation. Keep under 150 lines.
+For details see `.claude/memory/*.md`.
+
+---
+
+## User Profile
+- **User is NOT a developer** — explain technical decisions clearly
+- [Add project-specific user notes]
+
+## Last Known Good State ([DATE])
+- **Server:** [status, port]
+- **Tests:** [pass/fail status]
+- **Last commit:** [hash] [description]
+- **Migrations:** [count]
+- **Modules working:** [list]
+
+## Known Issues
+- [List current issues]
+
+## Critical Bugs Fixed (don't reintroduce!)
+- [Bug]: [one-line description of fix and correct approach]
+
+## Rollback Strategy
+- Tests fail → REVERT first, then rethink
+- Server won't boot → revert to last known good commit
+- Tags: `git tag stable-YYYYMMDD-HHMMSS` after confirmed working state
+- Last stable tag: [tag name or "none yet"]
+
+## Session Checklist
+1. This file loads automatically — read it
+2. Run `npm test` to verify current state
+3. Check `git status` and `git log --oneline -5`
+4. Check WORK_PLAN.md for current priorities
+5. Understand what's broken before changing anything
