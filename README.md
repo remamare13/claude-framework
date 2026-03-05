@@ -46,7 +46,8 @@ claude-framework/
 │   ├── protected-files.md.template
 │   ├── CLAUDE.local.md.template
 │   ├── architecture.md.template
-│   └── dependencies.md.template
+│   ├── dependencies.md.template
+│   └── module-status.md.template
 ├── sync.sh                      ← Sync shared files to a project
 └── init.sh                      ← Initialize new project with full setup
 ```

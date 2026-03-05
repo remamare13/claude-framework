@@ -1,0 +1,21 @@
+# Module Status — [PROJECT NAME]
+
+Track status of each module. Update after significant changes.
+
+## Active Modules
+
+| Module | Migration | API | MCP Tools | UI | Cron | Status |
+|--------|-----------|-----|-----------|-----|------|--------|
+| [module-name] | [NNN] | [endpoint] | [count] | [page] | [schedule] | Working/Partial/Broken |
+
+## Planned Modules
+
+| Module | Priority | Depends On | Notes |
+|--------|----------|------------|-------|
+| [module-name] | High/Medium/Low | [prerequisites] | [notes] |
+
+## Agent Registry
+
+| Agent | Type | Status | Purpose |
+|-------|------|--------|---------|
+| [agent-name] | coordinator/worker/personal | Active/Planned | [what it does] |

@@ -21,3 +21,9 @@ Impact: If this breaks, no AI agent communication
 ## Isolated Modules (safe to modify independently)
 
 - [List standalone modules with no downstream deps]
+
+## API → Module Mapping
+
+| API file | Module | Notes |
+|----------|--------|-------|
+| [src/api/example.js] | [module-name] | [CRUD, search, etc.] |

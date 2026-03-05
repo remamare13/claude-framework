@@ -46,6 +46,7 @@ create_from_template "$SCRIPT_DIR/templates/protected-files.md.template" "$TARGE
 create_from_template "$SCRIPT_DIR/templates/CLAUDE.local.md.template" "$TARGET/CLAUDE.local.md"
 create_from_template "$SCRIPT_DIR/templates/architecture.md.template" "$TARGET/memory/architecture.md"
 create_from_template "$SCRIPT_DIR/templates/dependencies.md.template" "$TARGET/memory/dependencies.md"
+create_from_template "$SCRIPT_DIR/templates/module-status.md.template" "$TARGET/memory/module-status.md"
 
 echo ""
 echo "=== Done ==="
