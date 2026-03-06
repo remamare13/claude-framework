@@ -61,11 +61,19 @@ test → boot check → reviewer → commit → memory-updater + system-document
 10. **System state** (--full) — spawn `system-documenter` if available
 11. **Spec report** (--full) — spawn `spec-updater` if available (REPORT only, ask before writing)
 
-### Phase 4: Finalize
+### Phase 4: Restart Services
 
-12. **Commit doc changes** — `[auto] Update memory and docs`
-13. **Breakpoint tag** — `git tag stable-$(date +%Y%m%d-%H%M%S)`
-14. **Summary + ask to push**
+12. **Restart project services** — if `scripts/restart.sh` exists, run it
+    - This restarts the project server and any dependent services (e.g., OpenClaw gateway)
+    - Wait for health checks to confirm services are UP
+    - If restart fails → WARN user but continue (non-blocking)
+    - If `scripts/restart.sh` does NOT exist → skip this phase silently
+
+### Phase 5: Finalize
+
+13. **Commit doc changes** — `[auto] Update memory and docs`
+14. **Breakpoint tag** — `git tag stable-$(date +%Y%m%d-%H%M%S)`
+15. **Summary + ask to push**
 
 ## Rules
 - NEVER commit .env, data/, credentials, key files
