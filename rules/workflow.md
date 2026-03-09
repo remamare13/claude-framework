@@ -34,3 +34,25 @@ These rules apply to EVERY coding session. No exceptions.
 15. **User is not a developer** — explain what you're doing and why in simple terms
 16. **Ask before destructive actions** — deleting files, dropping tables, force-pushing
 17. **Report status after each change** — "Changed X, tests pass, ready for next step"
+
+## Hook Profiles
+
+Hooks run in one of three profiles, controlled by `HOOK_PROFILE` env var (default: `standard`):
+
+| Profile | Commit prefix check | Secrets guard | git add -A block | JS syntax check | Use when |
+|---------|-------------------|---------------|-----------------|----------------|----------|
+| `minimal` | Skipped | Active | Active | Active | Autonomous/night worker (`-p` flag) |
+| `standard` | Active | Active | Active | Active | Normal interactive sessions |
+| `strict` | Active | Active | Active | Active | Security-sensitive work (future) |
+
+Set profile: `HOOK_PROFILE=minimal claude -p "task..."` or in settings.json env.
+
+Security hooks (secrets, git add -A) are **always active** in all profiles — they cannot be disabled.
+
+## After Compaction
+
+When context is compacted, a SessionStart hook fires a reminder. After compaction:
+1. Re-read `WORK_PLAN.md` (or equivalent) to restore task context
+2. Check `git log --oneline -5` to see what was done before compaction
+3. Check `git status` for any uncommitted changes
+4. Continue where you left off — do not restart the task

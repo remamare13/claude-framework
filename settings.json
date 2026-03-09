@@ -1,4 +1,8 @@
 {
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+    "HOOK_PROFILE": "standard"
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -15,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"command\\\",\\\"\\\"))\" 2>/dev/null); if [ -z \"$CMD\" ]; then exit 0; fi; if echo \"$CMD\" | grep -qE \"^git add (-A|--all|\\.)$|^git add .* (-A|--all)\"; then echo \"BLOCKED: Never use git add -A/. — always add specific files by name\" >&2; exit 2; fi; for PAT in \".env\" \"users.json\" \"credentials\" \".pem\" \".key\"; do case \"$CMD\" in *\"$PAT\"*) case \"$CMD\" in *cat*|*less*|*head*|*tail*|*grep*|*echo*) ;; *) echo \"BLOCKED: Cannot modify secrets/env files via shell\" >&2; exit 2;; esac;; esac; done; if echo \"$CMD\" | grep -q \"git commit\"; then if ! echo \"$CMD\" | grep -qE \"\\[CD\\]|\\[Donna\\]|\\[Marko\\]|\\[auto\\]\"; then echo \"BLOCKED: Commit message must contain [CD], [Donna], [Marko], or [auto] prefix\" >&2; exit 2; fi; fi; exit 0'"
+            "command": "bash -c 'CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"command\\\",\\\"\\\"))\" 2>/dev/null); if [ -z \"$CMD\" ]; then exit 0; fi; if echo \"$CMD\" | grep -qE \"^git add (-A|--all|\\\\.)$|^git add .* (-A|--all)\"; then echo \"BLOCKED: Never use git add -A/. — always add specific files by name\" >&2; exit 2; fi; for PAT in \".env\" \"users.json\" \"credentials\" \".pem\" \".key\"; do case \"$CMD\" in *\"$PAT\"*) case \"$CMD\" in *cat*|*less*|*head*|*tail*|*grep*|*echo*) ;; *) echo \"BLOCKED: Cannot modify secrets/env files via shell\" >&2; exit 2;; esac;; esac; done; if [ \"${HOOK_PROFILE:-standard}\" != \"minimal\" ]; then if echo \"$CMD\" | grep -q \"git commit\"; then if ! echo \"$CMD\" | grep -qE \"\\\\[CD\\\\]|\\\\[Donna\\\\]|\\\\[Marko\\\\]|\\\\[auto\\\\]\"; then echo \"BLOCKED: Commit message must contain [CD], [Donna], [Marko], or [auto] prefix\" >&2; exit 2; fi; fi; fi; exit 0'"
           }
         ]
       }
@@ -27,8 +31,29 @@
           {
             "type": "command",
             "command": "bash -c 'FILE_PATH=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"file_path\\\",\\\"\\\"))\" 2>/dev/null); LOGDIR=\".claude\"; mkdir -p \"$LOGDIR\"; echo \"$(date \"+%Y-%m-%d %H:%M:%S\") | $CLAUDE_TOOL | $FILE_PATH\" >> \"$LOGDIR/change-log.txt\"; exit 0'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'FILE_PATH=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; print(json.load(sys.stdin).get(\\\"file_path\\\",\\\"\\\"))\" 2>/dev/null); if [ -z \"$FILE_PATH\" ]; then exit 0; fi; case \"$FILE_PATH\" in *.js|*.mjs) if command -v node >/dev/null 2>&1; then node --check \"$FILE_PATH\" 2>/dev/null || echo \"SYNTAX WARNING: $FILE_PATH has errors\" >&2; fi;; esac; exit 0'"
           }
         ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"[hook] Context compacted — re-read WORK_PLAN.md for current task status\" >&2; exit 0'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash -c 'L=\".claude/memory/session-learnings.md\"; mkdir -p \".claude/memory\"; B=$(git branch --show-current 2>/dev/null || echo \"?\"); C=$(git log --oneline -1 2>/dev/null || echo \"no commits\"); D=$(git diff --stat 2>/dev/null | tail -1); echo \"\" >> \"$L\"; echo \"### $(date \"+%Y-%m-%d %H:%M\") | $B\" >> \"$L\"; echo \"- Last: $C\" >> \"$L\"; [ -n \"$D\" ] && echo \"- Pending: $D\" >> \"$L\"; exit 0'"
       }
     ]
   }
