@@ -30,7 +30,8 @@ A standardized `.claude/` setup providing:
 claude-framework/
 ├── rules/
 │   ├── workflow.md              ← Development discipline rules
-│   └── security.md             ← Security rules (secrets, PII, frontend, DB)
+│   ├── security.md             ← Security rules (secrets, PII, frontend, DB)
+│   └── frontend-tools.md       ← Available frontend/design plugins & MCP servers
 ├── agents/
 │   ├── memory-updater.md        ← Auto-update memory after commits
 │   ├── planner.md               ← Plan before coding
@@ -62,6 +63,7 @@ claude-framework/
 | Shared (from this repo) | Project-Specific (stays in project) |
 |--------------------------|--------------------------------------|
 | `rules/workflow.md` | `rules/memory.md` — project state |
+| `rules/frontend-tools.md` | |
 | `agents/*.md` | `rules/protected-files.md` — protected file list |
 | `skills/*/SKILL.md` | `memory/*.md` — architecture, deps, modules |
 | `settings.json` | `CLAUDE.local.md` — user preferences |
